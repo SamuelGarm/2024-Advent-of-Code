@@ -10,14 +10,8 @@
 #include <limits>
 #include <list>
 
-#define ADD 0
-#define MUL 1
-#define CONC 2
-
 int puzzle1();
 int puzzle2();
-
-unsigned long long EvaluateEquation(const std::string& equation);
 
 int main(int argc, char* argv[]) {
 	return puzzle2();
