@@ -4,6 +4,7 @@
 class Board {
 public:
 	bool isValid = false;
+	//populate a board from a file
 	Board(const std::string& file, size_t width, size_t height) : width(width), height(height)
 	{
 		std::ifstream inFile(file);
@@ -26,6 +27,22 @@ public:
 		isValid = true;
 		inFile.close();
 	}
+
+	//fill a board with a single characer
+	Board(const char c, size_t width, size_t height) : width(width), height(height) {
+		data = (char*)malloc(width * height * sizeof(char));
+		if (!data)
+			return;
+		//populate the array in row major order
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				data[(y * width * sizeof(char)) + (x * sizeof(char))] = c;
+			}
+		}
+		isValid = true;
+	}
+
+	//copy constructor
 	Board(const Board& board) {
 		width = board.width;
 		height = board.height;
