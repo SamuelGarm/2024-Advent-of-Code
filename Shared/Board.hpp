@@ -1,12 +1,25 @@
+#pragma once
 #include <fstream>
+#include <cassert>
 
 //this class represents a board of single characters. It is assumed that the board is not jagged
 class Board {
 public:
 	bool isValid = false;
 
-	char at(const int x, const int y) const { return data[(y * width * sizeof(char)) + (x * sizeof(char))]; };
-	void set(const int x, const int y, const char c) { data[(y * width * sizeof(char)) + (x * sizeof(char))] = c; };
+	Board() = delete;
+	Board& operator=(const Board&) = delete;
+
+	inline char at(const int x, const int y) const {
+		assert(x >= 0 && x < width);
+		assert(y >= 0 && y < height);
+		return data[(y * width * sizeof(char)) + (x * sizeof(char))]; 
+	};
+	inline void set(const int x, const int y, const char c) { 
+		assert(x >= 0 && x < width);
+		assert(y >= 0 && y < height);
+		data[(y * width * sizeof(char)) + (x * sizeof(char))] = c; 
+	};
 
 	//populate a board from a file
 	Board(const std::string& file, size_t width, size_t height) : width(width), height(height)
@@ -25,7 +38,8 @@ public:
 				char c = (char)inFile.get();
 				if (c == '\n')
 					c = (char)inFile.get();
-				data[(y * width * sizeof(char)) + (x * sizeof(char))] = c;
+				//data[(y * width * sizeof(char)) + (x * sizeof(char))] = c;
+				set(x, y, c);
 			}
 		}
 		isValid = true;
@@ -40,7 +54,8 @@ public:
 		//populate the array in row major order
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				data[(y * width * sizeof(char)) + (x * sizeof(char))] = c;
+				//data[(y * width * sizeof(char)) + (x * sizeof(char))] = c;
+				set(x, y, c);
 			}
 		}
 		isValid = true;
@@ -69,7 +84,11 @@ public:
 		}
 	}
 	~Board() {
-		free(data);
+		isValid = false;
+		if (data) {
+			free(data);
+			data = nullptr;
+		}
 	}
 	int getWidth() const { return width; };
 	int getHeight() const { return height; };
