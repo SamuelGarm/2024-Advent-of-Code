@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <cassert>
+#include "Point.hpp"
 
 //this class represents a board of single characters. It is assumed that the board is not jagged
 class Board {
@@ -15,10 +16,16 @@ public:
 		assert(y >= 0 && y < height);
 		return data[(y * width * sizeof(char)) + (x * sizeof(char))]; 
 	};
+	inline char at(const Point _point) const {
+		return at(_point.x, _point.y);
+	}
 	inline void set(const int x, const int y, const char c) { 
 		assert(x >= 0 && x < width);
 		assert(y >= 0 && y < height);
 		data[(y * width * sizeof(char)) + (x * sizeof(char))] = c; 
+	};
+	inline void set(const Point _point, const char c) {
+		set(_point.x, _point.y, c);
 	};
 
 	//populate a board from a file
