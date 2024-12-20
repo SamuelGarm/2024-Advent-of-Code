@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-foreach(dayNum RANGE 1 15)
+foreach(dayNum RANGE 1 16)
 add_executable(Day${dayNum} "Day${dayNum}.cpp")
 endforeach()
 
